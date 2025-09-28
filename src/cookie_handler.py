@@ -47,7 +47,7 @@ def generate_new_cookies(file_path):
 
     Once the user logs in and confirms by pressing Enter, the session cookies
     are saved to a file for future use. This is a creative way to handle
-    authentication without hardcoding credentials, addressing anti-bot measures[cite: 18].
+    authentication without hardcoding credentials and helps with anti-bot measures.
 
     Args:
         file_path (str): The path where the cookie file will be saved.

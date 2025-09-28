@@ -1,6 +1,6 @@
 # Data Schema
 
-The data collected by the scraper is stored in Parquet files, with one file per hashtag scraped. [cite_start]The schema for these files is as follows, designed to capture all required data points[cite: 11].
+The data collected by the scraper is stored in Parquet files, with one file per hashtag scraped. The schema for these files is as follows, designed to capture all required data points.
 
 | Column Name     | Data Type          | Description                                                                 |
 |-----------------|--------------------|-----------------------------------------------------------------------------|

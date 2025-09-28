@@ -54,10 +54,10 @@ def get_tweet_data(tweet_element):
 
     Returns:
         dict: A dictionary containing the tweet's data (username, timestamp, content,
-              engagement metrics, etc.), or None if extraction fails[cite: 11].
+              engagement metrics, etc.), or None if extraction fails.
     """
     try:
-        # Extract a unique ID from the tweet's permalink for deduplication [cite: 25]
+    # Extract a unique ID from the tweet's permalink for deduplication
         tweet_id = None
         links = tweet_element.find_elements(By.TAG_NAME, 'a')
         for link in links:
@@ -154,7 +154,7 @@ def scrape_twitter_data(hashtags_to_search, data_path, total_max_tweets=None, ba
 
             all_tweet_data = []
             scraped_tweet_ids = set()
-            time_limit = datetime.now(timezone.utc) - timedelta(hours=24) # Scrape tweets from the last 24 hours [cite: 12]
+            time_limit = datetime.now(timezone.utc) - timedelta(hours=24) # Scrape tweets from the last 24 hours
             
             new_tweets_in_batch = 0
             patience = 0
@@ -209,7 +209,7 @@ def scrape_twitter_data(hashtags_to_search, data_path, total_max_tweets=None, ba
             if all_tweet_data:
                 df = pd.DataFrame(all_tweet_data)
                 df.drop_duplicates(subset=['tweet_id'], inplace=True)
-                # Save data in the preferred Parquet format for efficiency [cite: 24]
+                # Save data in the preferred Parquet format for efficiency
                 output_file = f"{data_path}/{hashtag}_tweets.parquet"
                 df.to_parquet(output_file, index=False)
                 print(f"Saved {len(df)} unique tweets for #{hashtag} to {output_file}")

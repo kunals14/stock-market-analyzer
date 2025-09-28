@@ -2,17 +2,17 @@
 
 ## 1. Overview
 
-This project is a data collection and analysis system designed to gather real-time market intelligence from Twitter/X discussions related to the Indian stock market. [cite_start]It systematically scrapes, processes, and stores tweets containing relevant hashtags, laying the groundwork for quantitative signal analysis for algorithmic trading[cite: 5]. This system is built to be robust, handling anti-bot measures creatively and ensuring data integrity.
+This project is a data collection and analysis system designed to gather real-time market intelligence from Twitter/X discussions related to the Indian stock market. It systematically scrapes, processes, and stores tweets containing relevant hashtags, laying the groundwork for quantitative signal analysis for algorithmic trading (see `docs/technical_approach.md`). This system is built to be robust, handling anti-bot measures creatively and ensuring data integrity.
 
 ## 2. Features
 
-- [cite_start]**Automated Tweet Scraping:** Collects tweets from Twitter/X for specified hashtags (`#nifty50`, `#sensex`, etc.) from the last 24 hours[cite: 9, 10, 12].
-- [cite_start]**Comprehensive Data Extraction:** Gathers key data points including username, timestamp, content, engagement metrics (replies, retweets, likes), mentions, and hashtags[cite: 11].
-- [cite_start]**Anti-Bot Evasion:** Implements a sophisticated, multi-layered strategy to handle rate limiting and anti-bot measures without using paid APIs[cite: 14, 18].
+**Automated Tweet Scraping:** Collects tweets from Twitter/X for specified hashtags (`#nifty50`, `#sensex`, etc.) from the last 24 hours (see `docs/technical_approach.md`).
+**Comprehensive Data Extraction:** Gathers key data points including username, timestamp, content, engagement metrics (replies, retweets, likes), mentions, and hashtags (see `docs/data_schema.md`).
+**Anti-Bot Evasion:** Implements a sophisticated, multi-layered strategy to handle rate limiting and anti-bot measures without using paid APIs (see `docs/technical_approach.md`).
 - **Session Persistence:** Uses a cookie-based system to maintain login sessions, minimizing the need for manual intervention.
-- [cite_start]**Efficient Storage:** Saves cleaned data in the efficient, columnar Parquet format as preferred by the assignment requirements[cite: 24].
-- [cite_start]**Data Integrity:** Ensures data is unique through a robust deduplication mechanism based on tweet IDs[cite: 25].
-- [cite_start]**Production-Ready Code:** The codebase is fully documented with comments and docstrings and includes proper error handling[cite: 20, 21].
+**Efficient Storage:** Saves cleaned data in the efficient, columnar Parquet format as described in `docs/data_schema.md`.
+**Data Integrity:** Ensures data is unique through a robust deduplication mechanism based on tweet IDs (see `src/scraper.py`).
+**Production-Ready Code:** The codebase is documented with comments and docstrings and includes error handling (see `src/`).
 
 ## 3. Project Structure
 

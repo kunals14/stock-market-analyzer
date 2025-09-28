@@ -4,9 +4,9 @@ This document outlines the technical decisions and strategies implemented in the
 
 ### 1. Data Collection Method
 
-[cite_start]To meet the constraint of not using any paid APIs[cite: 14], this system uses **web scraping** via the **Selenium** library. This approach allows for direct interaction with the Twitter/X web interface, mimicking user behavior to navigate and extract data.
+To meet the constraint of not using any paid APIs, this system uses **web scraping** via the **Selenium** library. This approach allows for direct interaction with the Twitter/X web interface, mimicking user behavior to navigate and extract data.
 
-### [cite_start]2. Anti-Bot Evasion Strategy [cite: 18]
+### 2. Anti-Bot Evasion Strategy
 
 A multi-layered strategy was designed to handle and evade bot detection mechanisms:
 
@@ -18,11 +18,11 @@ A multi-layered strategy was designed to handle and evade bot detection mechanis
     -   **Human-like Scrolling:** The script scrolls down the page in randomized, page-down increments rather than executing a single large scroll.
     -   **Mouse Jitter:** During long pauses, the script simulates random mouse movements.
 
-### [cite_start]3. Data Storage and Schema [cite: 24]
+### 3. Data Storage and Schema
 
 -   **Storage Format:** Data is stored in the **Parquet format** as requested. Parquet was chosen for its high compression ratios and efficient columnar storage, which is ideal for analytical queries and handling large datasets.
 -   **Schema:** The data schema is designed to be flat and efficient. Please see `data_schema.md` for a detailed breakdown of the columns.
 
-### [cite_start]4. Data Deduplication [cite: 25]
+### 4. Data Deduplication
 
 To ensure data integrity, a **deduplication mechanism** is implemented before saving the data. Each tweet's unique ID is extracted from its permalink. This ID is stored in a Python `set` for fast, O(1) average time complexity lookups. If a tweet ID has already been seen, it is discarded, guaranteeing that the final dataset contains no duplicate entries.

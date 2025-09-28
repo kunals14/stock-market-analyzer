@@ -16,9 +16,9 @@ from src.cookie_handler import are_cookies_valid, generate_new_cookies
 
 if __name__ == "__main__":
     # --- Core Configuration ---
-    # Hashtags to search for, as required by the assignment [cite: 10]
+    # Hashtags to search for
     HASHTAGS = ["nifty50", "sensex", "intraday", "banknifty"]
-    # Total number of unique tweets to aim for across all hashtags [cite: 12]
+    # Total number of unique tweets to aim for across all hashtags
     TOTAL_TWEETS_TARGET = 2000
     # The scraper will pause after collecting this many tweets for a single hashtag
     BATCH_SIZE = 200
