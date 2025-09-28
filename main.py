@@ -2,54 +2,56 @@
 Main execution script for the Twitter/X scraping and analysis pipeline.
 
 This script orchestrates the entire process:
-1. It checks for valid login cookies and initiates a new login if they are
-   missing or expired.
-2. It runs the web scraper to collect tweet data based on specified hashtags.
-3. It logs the total execution time.
+1. It checks for valid login cookies.
+2. It runs the web scraper to collect raw tweet data.
+3. It runs the data processor to clean the raw data.
+4. It logs the total execution time.
 """
 
 import os
 import time
 from datetime import timedelta
-from src.scraper import scrape_twitter_data
+
 from src.cookie_handler import are_cookies_valid, generate_new_cookies
+from src.data_processor import process_raw_data
+from src.scraper import scrape_twitter_data
 
 if __name__ == "__main__":
     # --- Core Configuration ---
-    # Hashtags to search for
     HASHTAGS = ["nifty50", "sensex", "intraday", "banknifty"]
-    # Total number of unique tweets to aim for across all hashtags
-    TOTAL_TWEETS_TARGET = 2000
-    # The scraper will pause after collecting this many tweets for a single hashtag
-    BATCH_SIZE = 200
-    # Directory to save the output Parquet files
-    OUTPUT_DATA_PATH = "data/raw_tweets"
-
+    TOTAL_TWEETS_TARGET = 200
+    BATCH_SIZE = 50
+    
+    # --- Path Configuration ---
+    RAW_DATA_PATH = "data/raw_tweets"
+    PROCESSED_DATA_PATH = "data/processed_tweets" # <-- NEW PATH
+    
     # --- Pipeline Configuration ---
-    # Filename for storing login session cookies
     COOKIE_FILE = "twitter_cookies.pkl"
-    # Maximum age of cookies in days before requiring a new login
     COOKIE_MAX_AGE_DAYS = 7
 
+    start_time = time.perf_counter()
+    
     # --- Step 1: Automated Cookie Management ---
-    # Check if cookies are valid or need to be created/refreshed.
     if not are_cookies_valid(COOKIE_FILE, COOKIE_MAX_AGE_DAYS):
         generate_new_cookies(COOKIE_FILE)
 
-    # Ensure the output directory for data exists
-    os.makedirs(OUTPUT_DATA_PATH, exist_ok=True)
-
     # --- Step 2: Run the Scraper ---
+    os.makedirs(RAW_DATA_PATH, exist_ok=True)
     print("\nStarting the tweet scraping process...")
-    start_time = time.perf_counter()
-
     scrape_twitter_data(
         hashtags_to_search=HASHTAGS,
-        data_path=OUTPUT_DATA_PATH,
+        data_path=RAW_DATA_PATH,
         total_max_tweets=TOTAL_TWEETS_TARGET,
         batch_size=BATCH_SIZE
     )
 
+    # --- Step 3: Clean and Process Raw Data ---
+    process_raw_data(
+        raw_dir=RAW_DATA_PATH,
+        processed_dir=PROCESSED_DATA_PATH
+    )
+    
     end_time = time.perf_counter()
     elapsed = end_time - start_time
     elapsed_td = timedelta(seconds=elapsed)
