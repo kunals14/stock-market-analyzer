@@ -107,7 +107,6 @@ def scrape_twitter_data(hashtags_to_search, data_path, total_max_tweets=None, ba
         total_max_tweets (int, optional): Total number of tweets to scrape across all hashtags.
         batch_size (int, optional): Number of tweets to scrape before taking a long pause.
     """
-    # ... (rest of the function)
     limit_per_hashtag = float('inf')
     if total_max_tweets and hashtags_to_search:
         limit_per_hashtag = total_max_tweets // len(hashtags_to_search)
@@ -118,13 +117,12 @@ def scrape_twitter_data(hashtags_to_search, data_path, total_max_tweets=None, ba
     for i, hashtag in enumerate(hashtags_to_search):
         print(f"\n--- Starting scrape for #{hashtag} (Task {i+1}/{len(hashtags_to_search)}) ---")
         
-        # Use standard Selenium here, as undetected_chromedriver is mainly for login
         options = webdriver.ChromeOptions()
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
         options.add_argument(f'user-agent={user_agent}')
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
-        options.add_argument('--log-level=3') # Suppress verbose logs
+        options.add_argument('--log-level=3')
         driver = webdriver.Chrome(options=options)
 
         try:
@@ -154,7 +152,7 @@ def scrape_twitter_data(hashtags_to_search, data_path, total_max_tweets=None, ba
 
             all_tweet_data = []
             scraped_tweet_ids = set()
-            time_limit = datetime.now(timezone.utc) - timedelta(hours=24) # Scrape tweets from the last 24 hours
+            time_limit = datetime.now(timezone.utc) - timedelta(hours=24)
             
             new_tweets_in_batch = 0
             patience = 0

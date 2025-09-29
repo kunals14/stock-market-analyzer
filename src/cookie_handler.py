@@ -52,7 +52,7 @@ def generate_new_cookies(file_path):
     Args:
         file_path (str): The path where the cookie file will be saved.
     """
-    # Use undetected_chromedriver to avoid bot detection during login
+    # Using undetected_chromedriver to avoid bot detection during login
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
     driver = uc.Chrome(options=options)

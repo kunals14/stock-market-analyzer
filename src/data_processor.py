@@ -37,8 +37,8 @@ def clean_tweet_text(text):
     text = text.replace('#', '')
     
     # 5. Remove special characters, punctuation, and emojis
-    # This regex keeps alphanumeric characters and essential Indian language characters (Devanagari)
-    # as per the assignment requirement to handle unicode content.
+    # This regex keeps alphanumeric characters and essential Indian 
+    # language characters (Devanagari) to handle unicode content.
     text = re.sub(r'[^\w\s\u0900-\u097F]', '', text)
     
     # 6. Remove extra whitespace
