@@ -64,7 +64,7 @@ def create_sentiment_visualization(df, output_dir):
 
     df.set_index('timestamp', inplace=True)
     
-    hourly_sentiment = df['composite_signal'].resample('1H').mean()
+    hourly_sentiment = df['composite_signal'].resample('1h').mean()
     
     plt.style.use('seaborn-v0_8-darkgrid')
     fig, ax = plt.subplots(figsize=(15, 7))
