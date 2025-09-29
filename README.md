@@ -1,18 +1,18 @@
-# Real-Time Market Intelligence System for Indian Stock Markets
+# Real-Time Market Intelligence System for Indian Stocks
 
 ## 1. Overview
 
-This project is a data collection and analysis system designed to gather real-time market intelligence from Twitter/X discussions related to the Indian stock market. It systematically scrapes, processes, and stores tweets containing relevant hashtags, laying the groundwork for quantitative signal analysis for algorithmic trading (see `docs/technical_approach.md`). This system is built to be robust, handling anti-bot measures creatively and ensuring data integrity.
+This project is a complete data pipeline that scrapes, processes, analyzes, and visualizes discussions about the Indian stock market from Twitter/X. It is designed to operate without paid APIs, using creative web scraping techniques to gather real-time data for generating quantitative trading signals.
 
-## 2. Features
+## 2. Core Features
 
-**Automated Tweet Scraping:** Collects tweets from Twitter/X for specified hashtags (`#nifty50`, `#sensex`, etc.) from the last 24 hours (see `docs/technical_approach.md`).
-**Comprehensive Data Extraction:** Gathers key data points including username, timestamp, content, engagement metrics (replies, retweets, likes), mentions, and hashtags (see `docs/data_schema.md`).
-**Anti-Bot Evasion:** Implements a sophisticated, multi-layered strategy to handle rate limiting and anti-bot measures without using paid APIs (see `docs/technical_approach.md`).
-- **Session Persistence:** Uses a cookie-based system to maintain login sessions, minimizing the need for manual intervention.
-**Efficient Storage:** Saves cleaned data in the efficient, columnar Parquet format as described in `docs/data_schema.md`.
-**Data Integrity:** Ensures data is unique through a robust deduplication mechanism based on tweet IDs (see `src/scraper.py`).
-**Production-Ready Code:** The codebase is documented with comments and docstrings and includes error handling (see `src/`).
+-   **Automated Data Collection**: Scrapes tweets using specific hashtags like `#nifty50` and `#sensex` from the last 24 hours.
+-   **Smart Anti-Bot Evasion**: Bypasses bot detection using a sophisticated session management system. It requires a one-time manual login to generate session cookies, which are then used for all future automated scraping runs.
+-   **Comprehensive Data Extraction**: Captures key data points including username, timestamp, tweet content, engagement metrics (likes, replies, retweets), mentions, and hashtags.
+-   **Efficient Data Processing**: Cleans and normalizes raw text data, with specific support for Unicode characters found in Indian languages.
+-   **Quantitative Signal Generation**: Converts cleaned text into a numerical `trading_signal` based on sentiment polarity. This signal is then combined with engagement metrics to create a weighted `composite_signal`.
+-   **Optimized Storage**: Saves all data in the columnar **Parquet** format for efficient storage and fast analytical queries.
+-   **Data Visualization**: Generates a plot showing the hourly average market sentiment over time, providing a clear visual summary of the analysis.
 
 ## 3. Project Structure
 
@@ -20,26 +20,24 @@ This project is a data collection and analysis system designed to gather real-ti
 stock-market-analyzer/
 │
 ├── data/
-│   ├── raw_tweets/
-│   ├── processed_tweets/
-│   └── analysis_results/
+│   ├── raw_tweets/         # Stores raw scraped data
+│   ├── processed_tweets/   # Stores cleaned data
+│   └── analysis_results/   # Stores final signals and visualizations
 │
 ├── docs/
 │   ├── technical_approach.md
 │   └── data_schema.md
 │
 ├── src/
-│   ├── __init__.py
-│   ├── cookie_handler.py
-│   ├── data_processor.py
-│   ├── scraper.py
-│   └── analysis_engine.py
-│
-├── venv/
+│   ├── init.py
+│   ├── cookie_handler.py     # Manages session cookies
+│   ├── data_processor.py     # Cleans raw data
+│   ├── scraper.py            # Scrapes Twitter/X
+│   └── analysis_engine.py    # Generates signals and insights
 │
 ├── .gitignore
-├── main.py
-├── requirements.txt
+├── main.py                 # Main execution script
+├── requirements.txt        # Project dependencies
 └── README.md
 ```
 
@@ -48,7 +46,7 @@ stock-market-analyzer/
 1.  **Clone the repository:**
     ```bash
     git clone <your-repo-url>
-    cd QuantTweet
+    cd stock-market-analyzer
     ```
 
 2.  **Create and activate a virtual environment:**
@@ -69,12 +67,21 @@ stock-market-analyzer/
 
 ## 5. How to Run
 
-Execute the main script from the root directory:
+You can run the entire pipeline or just the analysis part on existing data.
 
-```bash
+### Full Pipeline (Scrape, Process, and Analyze)
+
+Execute the main script from the root directory:
+```bash 
 python main.py
 ```
--   **First Run:** On the first run, or if the session cookies are older than 7 days, a browser window will open. You will be prompted to log in to your Twitter/X account manually. After you log in, press `Enter` in the terminal.
+-   **First Run:** On the first run, or if the session cookies are older than 7 days, a browser window will open. You will be prompted to log in to your Twitter/X account manually. After you are logged in, return to the terminal without closing the browser and press Enter. This saves your session cookies for future runs.
 -   **Subsequent Runs:** The script will use the saved cookies to log in automatically and begin scraping.
 
-The collected data will be saved as `.parquet` files in the `data/raw_tweets/` directory.
+## Analysis Only
+If you have already scraped and processed the data, you can run only the analysis step:
+
+```bash
+python main.py --skip-scraping
+```
+This will use the data in data/processed_tweets/ to generate the final output in data/analysis_results/.
