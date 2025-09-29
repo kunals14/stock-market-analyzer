@@ -17,11 +17,12 @@ This project is a data collection and analysis system designed to gather real-ti
 ## 3. Project Structure
 
 ```
-QuantTweet/
+stock-market-analyzer/
 │
 ├── data/
-│   └── raw_tweets/
-│       └── (empty_by_default)/
+│   ├── raw_tweets/
+│   ├── processed_tweets/
+│   └── analysis_results/
 │
 ├── docs/
 │   ├── technical_approach.md
@@ -30,7 +31,9 @@ QuantTweet/
 ├── src/
 │   ├── __init__.py
 │   ├── cookie_handler.py
-│   └── scraper.py
+│   ├── data_processor.py
+│   ├── scraper.py
+│   └── analysis_engine.py
 │
 ├── venv/
 │
